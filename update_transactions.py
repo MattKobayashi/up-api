@@ -3,7 +3,6 @@ import requests
 import json
 import os
 
-up_api_ping_url = "https://api.up.com.au/api/v1/util/ping"
 up_api_token = {"Authorization": "Bearer " + os.environ.get("UP_API_TOKEN")}
 
 
@@ -24,6 +23,7 @@ def main():
 
 
 def ping_up_api():
+    up_api_ping_url = "https://api.up.com.au/api/v1/util/ping"
     up_api_ping_response = requests.get(up_api_ping_url, headers=up_api_token)
 
     if up_api_ping_response.status_code == 200:
@@ -70,7 +70,7 @@ def update_transactions_file():
     transactions_file.close()
 
     # Set the API URL for new transactions
-    up_api_transactions_url = (
+    up_api_new_transactions_url = (
         "https://api.up.com.au/api/v1/transactions?page[size]=100&filter[since]="
         + str(existing_transactions_data[0]["attributes"]["createdAt"]).replace(
             "+", "%2B"
@@ -79,7 +79,7 @@ def update_transactions_file():
 
     # Grab the first page of new transactions
     up_api_data_response = requests.get(
-        up_api_transactions_url, headers=up_api_token
+        up_api_new_transactions_url, headers=up_api_token
     ).json()
     new_transactions_data = up_api_data_response["data"]
 
