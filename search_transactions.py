@@ -2,11 +2,11 @@
 import json
 
 accounts_file = open("accounts.json", "r")
-account_data = json.loads(accounts_file.read())
+accounts_data = json.loads(accounts_file.read())
 accounts_file.close()
 
 transactions_file = open("transactions.json", "r")
-transaction_data = json.loads(transactions_file.read())
+transactions_data = json.loads(transactions_file.read())
 transactions_file.close()
 
 print("\n")
@@ -14,13 +14,13 @@ print("Select the account you wish to search")
 print("\n")
 
 index = 1
-for accounts in account_data:
+for accounts in accounts_data:
     print(str(index) + ": " + str(accounts["attributes"]["displayName"]))
     index = index + 1
 
 account_index = input("\nSelection: ")
 account_index = int(account_index) - 1
-account_id = account_data[account_index]["id"]
+account_id = accounts_data[account_index]["id"]
 
 search_term = input("Search term: ")
 
@@ -33,7 +33,7 @@ matching_transactions = [
         "amount": transaction["attributes"]["amount"]["value"],
         "status": transaction["attributes"]["status"],
     }
-    for transaction in transaction_data
+    for transaction in transactions_data
     if (
         search_term in str(transaction["attributes"]["message"])
         or search_term in str(transaction["attributes"]["description"])
